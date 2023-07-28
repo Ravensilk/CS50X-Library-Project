@@ -1,0 +1,58 @@
+{% extends 'main/formlayout.html' %}
+
+{% block main %}
+<link rel="stylesheet" href="../static/css/borrowform.css">
+<div class="d-flex justify-content-center align-items-center">
+    <script src="../static/js/cart.js"></script>
+    <script src="../static/js/form.js"></script>
+    <div class="backtotop text-center">
+        <span class="backtotopper"></span>
+        <span class="text-center" style="font-size: 12px;">Back to top</span>
+    </div>
+    <div class="backtotop">
+        <button class="btn btn-dark p-lg-1 p-md-1 p-2" id="backtotop" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-arrow-up-square-fill" viewBox="0 0 16 16">
+            <path d="M2 16a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2zm6.5-4.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 1 0z"/>
+        </svg></button>
+    </div>
+    <div class="container" style="height: 100%;">
+        <h3>Change Password</h3>
+        <hr>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        {% if category == 'danger' %}
+                            <div class="alert alert-{{ category }} alert-dismissible fade show my-1" role="alert">
+                                <i class="bi bi-hand-thumbs-down-fill text-dark mx-3"></i>{{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% elif category == 'success' %}    
+                            <div class="alert alert-{{ category }} alert-dismissible fade show my-1" role="alert">
+                                <i class="bi bi-hand-thumbs-up-fill text-dark mx-3"></i>{{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endif %}    
+                    {% endfor %}
+                {% endif %}
+            {% endwith %} 
+            <span>In this page, you can change your password. Please make sure that you use a strong password. <br> Make sure that you do not share your password with other students.</span> 
+        <br><br>
+        <form action="/updatepassword" method="POST">
+            <div class="form-row col-10 d-flex flex-column justify-content-center align-center-center">
+                <label for="oldpassword" id="oldpasswordlabel">
+                    <input class="form-control border border-dark oldpassword" type="password" required name="oldpassword" id="oldpassword" placeholder="Enter your current password">
+                </label>
+                <label for="newpassword" id="newpasswordlabel">
+                    <input class="form-control border border-dark newpassword mt-2" type="password" required name="newpassword" id="newpassword" placeholder="Enter your new password">
+                </label>
+                <label for="newpasswordconfirmation" id="newpasswordconfirmationlabel">
+                    <input class="form-control border border-dark newpasswordconfirmation mt-2" type="password" required name="newpasswordconfirmation" id="newpasswordconfirmation" placeholder="Re-enter your new password">
+                </label>
+            </div>
+            <div class="form-row me-2 my-lg-3 my-md-3 my-3">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <button type="submit" class="mainbutton mt-2">Update Password</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

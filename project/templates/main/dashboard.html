@@ -1,0 +1,135 @@
+{% extends 'main/loggedlayout.html' %}
+
+{% block main %}
+<div class="container-fluid">
+    <h3>Welcome Student ID {{ uname }}!</h3>
+    <hr>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    {% if category == 'danger' %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show my-1" role="alert">
+                            <i class="bi bi-hand-thumbs-down-fill mx-3 text-dark"></i>{{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% elif category == 'success' %}    
+                        <div class="alert alert-{{ category }} alert-dismissible fade show my-1" role="alert">
+                            <i class="bi bi-hand-thumbs-up-fill mx-3 text-dark"></i>{{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endif %}    
+                {% endfor %}
+            {% endif %}
+        {% endwith %} 
+        <h5>Here is a quick rundown of your account.</h5>
+        <div class="row d-flex flex-row pe-2">
+            <div class="col border border-dark rounded m-1 p-2 bg-dark">
+                <h5 class="px-2 text-white">Books In Possession</h5>
+                <h4 class="px-2 d-flex justify-content-between text-white"><i class="bi bi-book"></i>{{ borrowed }}</h4>
+            </div>
+            <div class="col border border-dark rounded m-1 p-2 bg-dark">
+                <h5 class="px-2 text-white">Books For Approval</h5>
+                <h4 class="px-2 d-flex justify-content-between text-white"><i class="bi bi-journal-arrow-up"></i>{{ approval }}</h4>
+            </div>
+            <div class="col border border-dark rounded m-1 p-2 bg-dark">
+                <h5 class="px-2 text-white">Books In Your Cart</h5>
+                <h4 class="px-2 d-flex justify-content-between text-white"><i class="bi bi-bag-check-fill"></i>{{ cart }}</h4>
+            </div>
+            <div class="col border border-dark rounded m-1 p-2 bg-dark">
+                <h5 class="px-2 text-white">Books Favorited</h5>
+                <h4 class="px-2 d-flex justify-content-between text-white"><i class="bi bi-heart-fill"></i>{{ favorites }}</h4>
+            </div>
+        </div>
+        <hr>
+        <h5>There are many things that you can do in this system, they are listed below:</h5>
+        <div class="container-fluid mb-1">
+            <div class="row border border-dark rounded d-flex flex-row">
+                <div class="col-lg-1 col-md-1 col-12 d-flex my-lg-0 my-md-0 my-3 justify-content-center align-items-center"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                  </svg></div>
+                <div class="vr m-0 p-0 d-lg-inline d-md-inline d-none"></div>
+                <br>
+                <br>
+                <div class="col-lg-8 col-md-8 col-12 py-2 d-flex flex-column">
+                    
+                    <h4>Lookup a Book</h4>
+                    <span>You can search our database for the books that you want to borrow. If the library has it, you can try to borrow it by submitting a request. Just go to the <span class="fw-bold ">"Borrow Books"</span> page and fill up the form with any detail you know about the book.</span>
+                    <div class="d-lg-inline d-mg-inline d-flex justify-content-center">
+                        <a href="/borrow"><button class="mainbutton my-lg-2 my-md-2 my-3">Search For A Book</button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid mb-1">
+            <div class="row border border-dark rounded d-flex flex-row">
+                <div class="col-lg-1 col-md-1 col-12 d-flex my-lg-0 my-md-0 my-3 justify-content-center align-items-center"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                    <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
+                  </svg></div>
+                <div class="vr m-0 p-0 d-lg-inline d-md-inline d-none"></div>
+                <br>
+                <br>
+                <div class="col-lg-8 col-md-8 col-12 py-2 d-flex flex-column">
+                    <h4>Track Your Favorite Books</h4>
+                    <span>You can add books to your "My Favorites" list in order for you to track them all in one page. You will know if the books you want are currently borrowed or available. Once you search a book, all you have to do is press the "♡" button.</span>
+                    <div class="d-lg-inline d-mg-inline d-flex justify-content-center">
+                        <a href="/myfavorites"><button class="mainbutton my-lg-2 my-md-2 my-3">Check Your Favorite Books</button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid mb-1">
+            <div class="row border border-dark rounded d-flex flex-row">
+                <div class="col-lg-1 col-md-1 col-12 d-flex my-lg-0 my-md-0 my-3 justify-content-center align-items-center"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-book" viewBox="0 0 16 16">
+                    <path d="M1 2.828c.885-.37 2.154-.769 3.388-.893 1.33-.134 2.458.063 3.112.752v9.746c-.935-.53-2.12-.603-3.213-.493-1.18.12-2.37.461-3.287.811V2.828zm7.5-.141c.654-.689 1.782-.886 3.112-.752 1.234.124 2.503.523 3.388.893v9.923c-.918-.35-2.107-.692-3.287-.81-1.094-.111-2.278-.039-3.213.492V2.687zM8 1.783C7.015.936 5.587.81 4.287.94c-1.514.153-3.042.672-3.994 1.105A.5.5 0 0 0 0 2.5v11a.5.5 0 0 0 .707.455c.882-.4 2.303-.881 3.68-1.02 1.409-.142 2.59.087 3.223.877a.5.5 0 0 0 .78 0c.633-.79 1.814-1.019 3.222-.877 1.378.139 2.8.62 3.681 1.02A.5.5 0 0 0 16 13.5v-11a.5.5 0 0 0-.293-.455c-.952-.433-2.48-.952-3.994-1.105C10.413.809 8.985.936 8 1.783z"/>
+                  </svg></div>
+                <div class="vr m-0 p-0 d-lg-inline d-md-inline d-none"></div>
+                <br>
+                <br>
+                <div class="col-lg-8 col-md-8 col-12 py-2 d-flex flex-column">
+                    <h4>Borrow a Book</h4>
+                    <span>You can borrow up to ten (10) books from the library as long as we have it available. All you have to do is click the <span class="fw-bold ">"Borrow Books"</span> button at the side. There you will be brought to a page where you will find a form which you need to fill up with any details about the book you want to borrow.</span>
+                    <div class="d-lg-inline d-mg-inline d-flex justify-content-center">
+                        <a href="/borrow"><button class="mainbutton my-lg-2 my-md-2 my-3">Borrow A Book</button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid mb-1">
+            <div class="row border border-dark rounded d-flex flex-row">
+                <div class="col-lg-1 col-md-1 col-12 d-flex my-lg-0 my-md-0 my-3 justify-content-center align-items-center"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-card-checklist" viewBox="0 0 16 16">
+                    <path d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h13zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-13z"/>
+                    <path d="M7 5.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0zM7 9.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm-1.496-.854a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 0 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0z"/>
+                  </svg></div>
+                <div class="vr m-0 p-0 d-lg-inline d-md-inline d-none"></div>
+                <br>
+                <br>
+                <div class="col-lg-8 col-md-8 col-12 py-2 d-flex flex-column">
+                    <h4>Monitor Your Account</h4>
+                    <span>This system allows you to monitor your account by going to the <span class="fw-bold ">"Library Profile"</span> or <span class="fw-bold ">"Borrow History"</span> pages. In the Library Profile page, you will see all the books you currently have or currently have for approval. In the Borrow History page, you will see the history and status of your requests to borrow books.</span>
+                    <div class="d-lg-inline d-mg-inline d-flex flex-lg-row flex-mg-row flex-column justify-content-center">
+                        <a href="/profile"><button class="mainbutton my-lg-2 my-md-2 my-1 mt-2 me-1">Check Your Profile</button></a><a href="/history"><button class="mainbutton my-lg-2 my-md-2 my-1 mb-2">Check Your Account History</button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid mb-1">
+            <div class="row border border-dark rounded d-flex flex-row">
+                <div class="col-lg-1 col-md-1 col-12 d-flex my-lg-0 my-md-0 my-3 justify-content-center align-items-center"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-file-earmark-plus" viewBox="0 0 16 16">
+                    <path d="M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5z"/>
+                    <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z"/>
+                  </svg></div>
+                <div class="vr m-0 p-0 d-lg-inline d-md-inline d-none"></div>
+                <br>
+                <br>
+                <div class="col-lg-8 col-md-8 col-12 py-2 d-flex flex-column">
+                    <h4>Request For A Book!</h4>
+                    <span>The school is always open to adding more books to our library to ensure the continuous learning of students. Do you have a book you want to request to be added? Just go to the <span class="fw-bold ">"Send A Request"</span> page and provide all the details you know about the book you want. This request will be taken into consideration.</span>
+                    <div class="d-lg-inline d-mg-inline d-flex justify-content-center">
+                        <a href="/request"><button class="mainbutton my-lg-2 my-md-2 my-3">Request For A Book</button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+{% endblock %}
+

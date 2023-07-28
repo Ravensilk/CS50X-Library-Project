@@ -1,0 +1,52 @@
+{% extends 'main/loggedlayout.html' %}
+
+{% block main %}
+<div class="container-fluid">
+<h3>History Page of Student ID: {{ uname }}</h3>
+<hr>
+
+<p>Listed below are all the transactions connected to the student.</p>
+    {% if data|length == 0 %}
+    <p class="fw-bold text-danger">You do not have any history to view.</p>
+    {% else %}
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+    <table id="historyTable" class="table table-hover table-striped" style="width:100%">
+        <thead>
+            <tr>
+                <th>Book Title</th>
+                <th>Date Updated</th>
+                <th>Decision</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for event in data %}
+            <tr>
+                <td><strong>{{ event.title }}</strong></td>
+                <td>{{ event.updated_on }}</td>
+                {% if event.transaction == 'Approved' %}
+                <td class="text-success"><strong>{{ event.transaction }}</strong></td>
+                {% elif event.transaction == 'Denied' %}
+                <td class="text-danger"><strong>{{ event.transaction }}</strong></td>
+                {% elif event.transaction == 'Returned' %}
+                <td class="text-warning"><strong>{{ event.transaction }}</strong></td>
+                {% elif event.transaction == 'Lost' %}
+                <td class="text-danger"><strong>{{ event.transaction }}</strong></td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <script>
+        $(document).ready(function() {
+        $('#historyTable').DataTable({
+            lengthMenu: [
+                [10, 25, 50, -1],
+                [10, 25, 50, 'All']
+                ]
+            });
+        });
+    </script>
+    {% endif %}
+</div>
+{% endblock %}

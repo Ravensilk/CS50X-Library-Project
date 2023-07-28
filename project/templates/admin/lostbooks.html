@@ -1,0 +1,58 @@
+{% extends 'admin/adminlayout.html' %}
+
+{% block main %}
+<div class="container-fluid">
+    <h3>List of Books Lost</h3>
+    <hr>
+    <span>Listed below are the books that have been lost after being borrowed by a student or a staff of the school.</span>
+    <span class="fw-bold fst-italic my-1">By default, only a max of 500 lost books data are shown in this table. If you want to be shown all of the lost books in the library, press the "View All" button below.</span>
+    {% if not search %}
+    <form action="/admin/lostbooks" method="POST">
+        <input type="hidden" id="operation" name="operation" value="all">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <button class="mainbutton mt-3" type="submit">View All</button>
+    </form>
+    {% else %}
+    <br>
+    {% endif %}
+    <br>
+
+        {% if lostbooks|length == 0 %}
+        <p class="text-danger fw-bold">There are no books that are lost. Great!</p>
+        {% else %}
+        <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+        <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+        <table id="historyTable" class="table table-hover table-striped" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Book Title</th>
+                    <th>Author</th>
+                    <th class="d-lg-table-cell d-md-table-cell d-none">ISBN</th>
+                    <th>Lost By</th>
+                    <th class="d-lg-table-cell d-md-table-cell d-none">Borrowed On</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for book in lostbooks %}
+                <tr>
+                    <td><strong>{{ book.title }}</strong></td>
+                    <td>{{ book.author }}</td>
+                    <td class="d-lg-table-cell d-md-table-cell d-none">{{ book.isbn }}</td>
+                    <td>{{ book.lost_by }}</td>
+                    <td class="d-lg-table-cell d-md-table-cell d-none">{{ book.borrowed_on }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <br>
+        
+        <script>
+            $(document).ready(function() {
+            $('#historyTable').DataTable({
+                lengthMenu: [10, 25, 50]
+                });
+            });
+        </script>
+        {% endif %}
+</div>
+{% endblock %}

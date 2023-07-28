@@ -1,0 +1,60 @@
+{% extends 'accounts/layout.html' %}
+
+{% block main %}
+<div class="row d-flex flex-lg-row flex-md-column flex-column align-items-center">
+    <div class="col-7 d-flex flex-column justify-content-center">
+        <div class="container-fluid d-flex flex-column align-items-center justify-content-center my-3">
+            <h1 class="text-center">Welcome to the Library Management System</h1>
+            <h2>JKC University</h2>
+        </div>
+        <div>
+            <form action="/" method="POST" class="mt-2">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <div class="d-flex flex-row">
+                    <span class="d-flex align-items-center justify-content-center mx-2"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                    </svg></span>
+                    <input class="form-control border border-dark-subtle" type="text" name="bookname" id="bookname" placeholder="Title of book you are searching for" size="75">
+                </div>
+                <div class="d-flex flex-column justify-content-center">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            {% if category == 'danger' %}
+                                <div class="alert alert-{{ category }} alert-dismissible fade show my-1" role="alert">
+                                    <i class="bi bi-hand-thumbs-down-fill mx-3"></i>{{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            {% elif category == 'success' %}    
+                                <div class="alert alert-{{ category }} alert-dismissible fade show my-1" role="alert">
+                                    <i class="bi bi-hand-thumbs-up-fill mx-3"></i>{{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            {% endif %}    
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %} 
+                    <div class="d-flex justify-content-center"><button class="mainbutton my-2">Search Book</button></div>
+                </div> 
+            </form>
+        </div>
+    </div>
+    <div class="col-5 d-flex flex-column align-items-center justify-content-end">
+        <div class="container-fluid row d-flex flex-row align-items-center justify-content-center max-vh-40 pt-3 mt-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-person-fill-lock mb-3" viewBox="0 0 16 16">
+                <path d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm-9 8c0 1 1 1 1 1h5v-1a1.9 1.9 0 0 1 .01-.2 4.49 4.49 0 0 1 1.534-3.693C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4Zm7 0a1 1 0 0 1 1-1v-1a2 2 0 1 1 4 0v1a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1v-2Zm3-3a1 1 0 0 0-1 1v1h2v-1a1 1 0 0 0-1-1Z"/>
+              </svg>
+            <div class="d-flex justify-content-center"><a href="/login" style="text-decoration: none;"><button class="mainbutton my-2">Login as a Student</button></a></div>
+            <div class="d-flex justify-content-center"><a href="/admin/login" style="text-decoration: none;"><button class="mainbutton my-2">Login as a Librarian</button></a></div>
+        </div>
+        <div class="container-fluid row d-flex flex-row align-items-center justify-content-center max-vh-40 pt-3 mt-3">
+            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-person-fill-add" viewBox="0 0 16 16">
+                <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0Zm-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                <path d="M2 13c0 1 1 1 1 1h5.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.544-3.393C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4Z"/>
+              </svg>
+            <div class="d-flex justify-content-center"><a href="/register" style="text-decoration: none;"><button class="mainbutton my-2">Register</button></a></div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

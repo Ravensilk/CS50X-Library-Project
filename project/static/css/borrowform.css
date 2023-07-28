@@ -1,0 +1,212 @@
+.booktitle{
+    padding-left: 40px;
+}
+
+.inputhidden {
+    display: none;
+}
+
+.authorbtn {
+    border: 0;
+    outline: none;
+}
+
+.genrebtn {
+    border: 0;
+    outline: none;
+}
+
+.yearbtn {
+    border: 0;
+    outline: none;
+}
+
+.publisherbtn {
+    border: 0;
+    outline: none;
+}
+
+.isbnbtn {
+    border: 0;
+    outline: none;
+}
+
+.studentidbtn {
+    border: 0;
+    outline: none;
+}
+
+#booknamelabel { 
+    position: relative;
+}
+
+#booknamelabel:before { 
+    content: "\F52A";
+    position: absolute;
+    font-weight: bold;
+    font-family: "bootstrap-icons";
+    top: 7px;
+    left: 10px;
+}
+
+#bookauthorlabel { 
+    position: relative;
+    visibility: hidden;
+}
+
+#bookauthorlabel:before { 
+    content: "\F4DA";
+    position: absolute;
+    font-weight: bold;
+    font-family: "bootstrap-icons";
+    top: 15px;
+    left: 10px;
+    z-index: 9999;
+}
+
+.bookauthor {
+    position: absolute;
+    width: 0;
+    opacity: 0;
+    transition: opacity 0.5s, width 0.5s;
+    left: -10000px;
+    top: -1000px;
+}
+
+.bookgenre {
+    position: absolute;
+    width: 0;
+    opacity: 0;
+    transition: opacity 0.5s, width 0.5s;
+    left: -10000px;
+    top: -1000px;
+}
+
+#bookgenrelabel { 
+    position: relative;
+    visibility: hidden;
+}
+
+#bookgenrelabel:before { 
+    content: "\F260";
+    position: absolute;
+    font-weight: bold;
+    font-family: "bootstrap-icons";
+    top: 15px;
+    left: 10px;
+    z-index: 9999;
+}
+
+.bookyear {
+    position: absolute;
+    width: 0;
+    opacity: 0;
+    transition: opacity 0.5s, width 0.5s;
+    left: -10000px;
+    top: -1000px;
+}
+
+#bookyearlabel { 
+    position: relative;
+    visibility: hidden;
+}
+
+#bookyearlabel:before { 
+    content: "\F67F";
+    position: absolute;
+    font-weight: bold;
+    font-family: "bootstrap-icons";
+    top: 15px;
+    left: 10px;
+    z-index: 9999;
+}
+
+.bookpublisher {
+    position: absolute;
+    width: 0;
+    opacity: 0;
+    transition: opacity 0.5s, width 0.5s;
+    left: -10000px;
+    top: -1000px;
+}
+
+#bookpublisherlabel { 
+    position: relative;
+    visibility: hidden;
+}
+
+#bookpublisherlabel:before { 
+    content: "\F500";
+    position: absolute;
+    font-weight: bold;
+    font-family: "bootstrap-icons";
+    top: 15px;
+    left: 10px;
+    z-index: 9999;
+}
+
+.studentid {
+    position: absolute;
+    width: 0;
+    opacity: 0;
+    transition: opacity 0.5s, width 0.5s;
+    left: -10000px;
+    top: -1000px;
+}
+
+#studentidlabel { 
+    position: relative;
+    visibility: hidden;
+}
+
+#studentidlabel:before { 
+    content: "\F4C9";
+    position: absolute;
+    font-weight: bold;
+    font-family: "bootstrap-icons";
+    top: 15px;
+    left: 10px;
+    z-index: 9999;
+}
+
+.bookisbn {
+    position: absolute;
+    width: 0;
+    opacity: 0;
+    transition: opacity 0.5s, width 0.5s;
+    left: -10000px;
+    top: -1000px;
+}
+
+#bookisbnlabel { 
+    position: relative;
+    visibility: hidden;
+}
+
+#bookisbnlabel:before { 
+    content: "\F4C9";
+    position: absolute;
+    font-weight: bold;
+    font-family: "bootstrap-icons";
+    top: 15px;
+    left: 10px;
+    z-index: 9999;
+}
+
+.bookauthorrequest {
+    padding-left: 40px;
+}
+
+#bookauthorrequestlabel { 
+    position: relative;
+}
+
+#bookauthorrequestlabel:before { 
+    content: "\F4DA";
+    position: absolute;
+    font-weight: bold;
+    font-family: "bootstrap-icons";
+    top: 15px;
+    left: 10px;
+    z-index: 9999;
+}

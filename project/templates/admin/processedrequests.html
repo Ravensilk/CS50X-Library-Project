@@ -1,0 +1,50 @@
+{% extends 'admin/adminlayout.html' %}
+
+{% block main %}
+<div class="container-fluid">
+    <h3>List of Processed Requests</h3>
+    <hr>
+    <span>Listed below are the books that have been requested by students and have been processed. This list shows the latest 100 requests.</span>
+    <br>
+
+        {% if requests|length == 0 %}
+        <p class="text-danger fw-bold">There are no books that have been requested yet.</p>
+        {% else %}
+        <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+        <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+        <table id="historyTable" class="table table-hover table-striped" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Book Title</th>
+                    <th>Author</th>
+                    <th>ISBN</th>
+                    <th>Decision</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for book in requests %}
+                <tr>
+                    <td><strong>{{ book.title.title() }}</strong></td>
+                    <td>{{ book.author.title() }}</td>
+                    <td>{{ book.isbn }}</td>
+                    {% if book.status == "Approved" %}
+                    <td class="fw-bold text-success">{{ book.status }}</td>
+                    {% else %}
+                    <td class="fw-bold text-danger">{{ book.status }}</td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <br>
+        
+        <script>
+            $(document).ready(function() {
+            $('#historyTable').DataTable({
+                lengthMenu: [10, 25, 50]
+                });
+            });
+        </script>
+        {% endif %}
+</div>
+{% endblock %}

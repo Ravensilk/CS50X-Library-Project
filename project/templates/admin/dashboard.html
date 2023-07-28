@@ -1,0 +1,137 @@
+{% extends 'admin/adminlayout.html' %}
+
+{% block main %}
+<div class="container-fluid">
+    <h3>Welcome Librarian {{ uname }}!</h3>
+    <hr>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    {% if category == 'danger' %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show my-1" role="alert">
+                            <i class="bi bi-hand-thumbs-down-fill text-dark mx-3"></i>{{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% elif category == 'success' %}    
+                        <div class="alert alert-{{ category }} alert-dismissible fade show my-1" role="alert">
+                            <i class="bi bi-hand-thumbs-up-fill text-dark mx-3"></i>{{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endif %}    
+                {% endfor %}
+            {% endif %}
+        {% endwith %} 
+        <h5>Here is a quick rundown of the library.</h5>
+        <div class="row d-flex flex-row">
+            <div class="col border border-dark rounded m-1 p-2 bg-dark">
+                <h4 class="px-2 text-white">Books In Possession of Students</h4>
+                <h3 class="px-2 d-flex justify-content-between text-white"><i class="bi bi-book"></i>{{ borrowed }}</h3>
+            </div>
+            <div class="col border border-dark rounded m-1 p-2 bg-dark">
+                <h4 class="px-2 text-white">Books For Approval</h4>
+                <h3 class="px-2 d-flex justify-content-between text-white"><i class="bi bi-journal-arrow-up"></i>{{ approval }}</h3>
+            </div>
+            <div class="col border border-dark rounded m-1 p-2 bg-dark">
+                <h4 class="px-2 text-white">Books Lost</h4>
+                <h3 class="px-2 d-flex justify-content-between text-white"><i class="bi bi-journal-arrow-up"></i>{{ lost }}</h3>
+            </div>
+        </div>
+        <hr>
+        <h5>There are many things that you can do in this system, they are listed below:</h5>
+        <div class="container-fluid mb-1">
+            <div class="row border border-dark rounded d-flex flex-row">
+                <div class="col-lg-1 col-md-1 col-12 d-flex my-lg-0 my-md-0 my-3 justify-content-center align-items-center"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                  </svg></div>
+                <div class="vr m-0 p-0 d-lg-inline d-md-inline d-none"></div>
+                <br>
+                <br>
+                <div class="col-lg-8 col-md-8 col-12 py-2 d-flex flex-column">
+                    
+                    <h4>Lookup a Book</h4>
+                    <span>You can search for different books in the library. Different filters are provided and you can also search for books that are currently borrowed. Just go to <span class="fw-bold">"View Library Books"</span> and fill in any detail you know or just view all the books. Do note that choosing to view all the books in the Library may load longer.</span>
+                    <div class="d-lg-inline d-mg-inline d-flex justify-content-center">
+                        <a href="/admin/booklist"><button class="mainbutton my-lg-2 my-md-2 my-3">Search For A Book / View All Books</button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid mb-1">
+            <div class="row border border-dark rounded d-flex flex-row">
+                <div class="col-lg-1 col-md-1 col-12 d-flex my-lg-0 my-md-0 my-3 justify-content-center align-items-center"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-check2-circle" viewBox="0 0 16 16">
+                    <path d="M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z"/>
+                    <path d="M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z"/>
+                  </svg></div>
+                <div class="vr m-0 p-0 d-lg-inline d-md-inline d-none"></div>
+                <br>
+                <br>
+                <div class="col-lg-8 col-md-8 col-12 py-2 d-flex flex-column">
+                    <h4>Approve or Deny Books Requests</h4>
+                    <span>You can start accepting or denying book requests from students by going to <span class="fw-bold">"Book Approvals"</span>. Keep in mind the different criteria that a student must pass in order to borrow or return a book:</span>
+                    <ul>
+                        <li>Students can only borrow a maximum of ten (10) books. Deny other requests if they go over.</li>
+                        <li>The student should present the book in-front of you, together with their ID, which you will check to verify their identity before approval.</li>
+                        <li>Students that are returning books must present the book to the library before the return is processed.</li>
+                        <li><span class="fw-bold">NOTE: Students who fail to return a book by the end of the school year will not be shown their grade until they return the book / provide a replacement / pay for the book.</span></li>
+                    </ul>
+                    <div class="d-lg-inline d-mg-inline d-flex justify-content-center">
+                        <a href="/admin/bookapproval"><button class="mainbutton my-lg-2 my-md-2 my-3">Approve / Deny Book Acquisition</button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid mb-1">
+            <div class="row border border-dark rounded d-flex flex-row">
+                <div class="col-lg-1 col-md-1 col-12 d-flex my-lg-0 my-md-0 my-3 justify-content-center align-items-center"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5z"/>
+                  </svg></div>
+                <div class="vr m-0 p-0 d-lg-inline d-md-inline d-none"></div>
+                <br>
+                <br>
+                <div class="col-lg-8 col-md-8 col-12 py-2 d-flex flex-column">
+                    <h4>Process Book Returns</h4>
+                    <span>Just go to the <span class="fw-bold">"Book Returns"</span> page to process the books being returned by students. Make sure that you only process the returns <strong>IF</strong> the book is actually returned by the student.</span>
+                    <div class="d-lg-inline d-mg-inline d-flex justify-content-center">
+                        <a href="/admin/returnbook"><button class="mainbutton my-lg-2 my-md-2 my-3 me-1">Process a Book Return</button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid mb-1">
+            <div class="row border border-dark rounded d-flex flex-row">
+                <div class="col-lg-1 col-md-1 col-12 d-flex my-lg-0 my-md-0 my-3 justify-content-center align-items-center"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-file-earmark-arrow-up" viewBox="0 0 16 16">
+                    <path d="M8.5 11.5a.5.5 0 0 1-1 0V7.707L6.354 8.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 7.707V11.5z"/>
+                    <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z"/>
+                  </svg></div>
+                <div class="vr m-0 p-0 d-lg-inline d-md-inline d-none"></div>
+                <br>
+                <br>
+                <div class="col-lg-8 col-md-8 col-12 py-2 d-flex flex-column">
+                    <h4>Upload Books</h4>
+                    <span>If someone donates or gives a new book to the library, you should add the book to the database. To do that, just go to <span class="fw-bold">"Upload Books"</span> and upload a CSV file containing the proper requirements listed on the page.</span>
+                    <div class="d-lg-inline d-mg-inline d-flex justify-content-center">
+                        <a href="/admin/upload"><button class="mainbutton my-lg-2 my-md-2 my-3 me-1">Upload Books</button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container-fluid mb-1">
+            <div class="row border border-dark rounded d-flex flex-row">
+                <div class="col-lg-1 col-md-1 col-12 d-flex my-lg-0 my-md-0 my-3 justify-content-center align-items-center"><svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-archive-fill" viewBox="0 0 16 16">
+                    <path d="M12.643 15C13.979 15 15 13.845 15 12.5V5H1v7.5C1 13.845 2.021 15 3.357 15h9.286zM5.5 7h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1zM.8 1a.8.8 0 0 0-.8.8V3a.8.8 0 0 0 .8.8h14.4A.8.8 0 0 0 16 3V1.8a.8.8 0 0 0-.8-.8H.8z"/>
+                  </svg></div>
+                <div class="vr m-0 p-0 d-lg-inline d-md-inline d-none"></div>
+                <br>
+                <br>
+                <div class="col-lg-8 col-md-8 col-12 py-2 d-flex flex-column">
+                    <h4>Monitor Inventory</h4>
+                    <span>You can go to <span class="fw-bold">"Lost Books"</span> to see a list of all the books that have not been returned by students.</span>
+                    <div class="d-lg-inline d-mg-inline d-flex justify-content-center">
+                        <a href="/admin/lostbooks"><button class="mainbutton my-lg-2 my-md-2 my-3 me-1">Check Lost Books</button></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+{% endblock %}
+

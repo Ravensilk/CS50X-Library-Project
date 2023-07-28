@@ -1,0 +1,79 @@
+{% extends 'admin/adminlayout.html' %}
+
+{% block main %}
+<div class="container-fluid">
+    <h3>Process Requests</h3>
+    <hr>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    {% if category == 'danger' %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show my-1" role="alert">
+                            <i class="bi bi-hand-thumbs-down-fill mx-3"></i>{{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% elif category == 'success' %}    
+                        <div class="alert alert-{{ category }} alert-dismissible fade show my-1" role="alert">
+                            <i class="bi bi-hand-thumbs-up-fill mx-3"></i>{{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endif %}    
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    <span>Listed below are the books and articles submitted by students.</span>
+    
+        <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+        <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+        <br><br>
+        <table id="historyTable" class="table table-hover table-striped my-2" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Book Title / ISBN</th>
+                    <th>Book Author</th>
+                    <th class="d-lg-table-cell d-md-table-cell d-none">Publish Year</th>
+                    <th>Decision</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for book in requests %}
+                <tr>
+                    <td><strong>{{ book.title.title() }} / {{ book.isbn }}</span></strong></td>
+                    <td>{{ book.author.title() }}</td>
+                    <td class="d-lg-table-cell d-md-table-cell d-none">{{ book.year }}</td>
+                    <td>
+                        <div class="d-flex flex-lg-row flex-md-row flex-column align-items-center justify-content-center">
+                            <div>
+                                <form action="/admin/requests" method="POST">
+                                    <input type="hidden" name="requestid" id="requestid" value="{{ book.id }}">
+                                    <input type="hidden" name="operation" id="operation" value="approve">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                    <button type="submit" class="mainbutton mx-1">Approve</button>
+                                </form>
+                            </div>
+                            <div>
+                                <form action="/admin/requests" method="POST">
+                                    <input type="hidden" name="requestid" id="requestid" value="{{ book.id }}">
+                                    <input type="hidden" name="operation" id="operation" value="deny">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                    <button type="submit" class="mainbutton mx-1 mt-lg-0 mt-md-0 mt-1">Deny</button>
+                                </form>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <script>
+            $(document).ready(function() {
+            $('#historyTable').DataTable({
+                lengthMenu: [
+                    [10, 25, 50, -1],
+                    [10, 25, 50, 'All']
+                    ]
+                });
+            });
+        </script>
+</div>
+{% endblock %}

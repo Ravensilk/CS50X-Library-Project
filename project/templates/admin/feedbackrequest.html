@@ -1,0 +1,54 @@
+{% extends 'admin/adminlayout.html' %}
+
+
+{% block main %}
+<div class="container-fluid">
+    <h3>Provide Feedback For the Request</h3>
+    <hr>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    {% if category == 'danger' %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show my-1" role="alert">
+                            <i class="bi bi-hand-thumbs-down-fill mx-3"></i>{{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% elif category == 'success' %}    
+                        <div class="alert alert-{{ category }} alert-dismissible fade show my-1" role="alert">
+                            <i class="bi bi-hand-thumbs-up-fill mx-3"></i>{{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endif %}    
+                {% endfor %}
+            {% endif %}
+        {% endwith %} 
+        <form action="/admin/processrequest" method="POST">
+            <div class="form-row col-10">
+                <div class="form-row d-flex flex-row">
+                    <div class="col me-2">
+                        {% if operation == 'approve' %}
+                            <h4>Are you sure that you want to <span class="text-success">{{ operation }}</span> this request?</h4>
+                        {% elif operation == 'deny' %}
+                            <h4>Are you sure that you want to <span class="text-danger">{{ operation }}</span> this request?</h4>
+                        {% endif %}
+                        <span class="fw-bold text-dark my-2">{{ requestobject.title.title() }} - {{ requestobject.author.title() }} - submitted on {{ requestobject.requested_on }}</span><br>
+                        <span>Please provide a feedback to the request by typing your feedback on the text box provided below.</span><br>
+                        <span class="text-danger fst-italic">This is required. (The shorter, the more concise, the better.)</span>
+                        <textarea class=" my-2 form-control" name="feedback" id="feedback" rows="4"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row">
+                <input type="hidden" name="requestid" id="requestid" value="{{ requestobject.id }}">
+                <input type="hidden" name="operation" value="{{ operation }}">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                <input type="hidden" name="operation" value="search">
+                {% if operation == 'approve' %}
+                    <button type="submit" class="btn btn-success mt-2">Approve</button>
+                {% elif operation == 'deny' %}
+                    <button type="submit" class="btn btn-danger mt-2">Deny</button>
+                {% endif %}
+            </div>
+        </form>
+</div>
+{% endblock %}

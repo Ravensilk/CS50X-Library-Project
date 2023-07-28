@@ -1,0 +1,71 @@
+{% extends 'main/loggedlayout.html' %}
+
+{% block main %}
+<script src="../static/js/cart.js"></script>
+<div class="container-fluid">
+    <h3>Submit Books for Approval</h3>
+    <hr>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    {% if category == 'danger' %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show my-2" role="alert">
+                            <i class="bi bi-hand-thumbs-down-fill mx-3"></i>{{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% elif category == 'success' %}    
+                        <div class="alert alert-{{ category }} alert-dismissible fade show my-2" role="alert">
+                            <i class="bi bi-hand-thumbs-up-fill mx-3"></i>{{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% elif category == 'warning' %}    
+                        <div class="alert alert-{{ category }} alert-dismissible fade show my-2" role="alert">
+                            <i class="bi bi-hand-thumbs-up-fill mx-3"></i>{{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>   
+                    {% endif %}    
+                {% endfor %}
+            {% endif %}
+        {% endwith %} 
+    
+    <h5 class="mt-2">These are the books currently in your cart:</h5>
+        <div class="row d-flex flex-row">
+            <div class="col d-flex flex-column p-3 m-3">
+                <div class="row d-flex">
+                    <form id="cart-actions" method="POST">
+                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                        <span>Tick the checkbox of the books that you want to submit for approval. Reminder, you can only borrow a maximum of 10 books.</span>
+                    {% for book in books %}
+                    <div class="col-9 my-3 choiceList">
+                        <div class="container-fluid row form-check d-flex flex-row justify-content-start">
+                            <div class="col-lg-1 col-md-1 col-2 d-flex justify-content-center align-items-center">
+                                <input class="form-check-input border-dark formCheckBox" type="checkbox" name="books[]" value="{{ book.id }}">
+                            </div>
+                            <div class="col-lg-11 col-md-11 col-10 d-flex flex-column border border-light rounded p-1">
+                                <h5>{{ book.title }}</h5>  
+                                <span><span class="fw-bold">Author:</span> <span class="fst-italic">{{ book.author }}</span></span>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <button type="button" class="mainbutton selectAllBtn mt-2">Select All</button>
+                    <hr>
+                    <div class="d-flex flex-lg-row flex-md-row flex-column justify-content-start align-items-center mx-1 mt-2">
+                        <input type="hidden" name="operation" value="list">
+                        <button class="mainbutton me-lg-1 me-md-1 me-0 my-lg-0 my-md-0 my-1" id="button-submit"><i class="bi bi-cursor d-flex align-items-center mx-1"></i>Submit Books for Approval</button>
+                        <button class="mainbutton my-lg-0 my-md-0 my-1" id="button-remove"><i class="bi bi-trash3 d-flex align-items-center mx-1"></i>Remove from Cart</button>
+                    </div>
+                    </form>
+                    <div class="container-fluid d-flex justify-content-lg-start justify-content-md-start justify-content-center mt-1">
+                        <form action="/clearcart" method="POST">
+                            <input type="hidden" name="operation" value="clear">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                            <button class="mainbutton mx-1" id="button-clear"><i class="bi bi-recycle d-flex align-items-center mx-1"></i>Clear Borrowed Books</button>
+                        </form>
+                    </div>
+                </div>            
+            </div>
+        </div>     
+</div>
+
+{% endblock %}

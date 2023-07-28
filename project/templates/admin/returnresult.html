@@ -1,0 +1,66 @@
+{% extends 'admin/adminlayout.html' %}
+
+{% block main %}
+<div class="container-fluid">
+    <h3>Return Search Results</h3>
+    <hr>
+    <span>Listed below are the books that were found using the details you submitted on the form.</span>
+    <span class="fw-bold ">NOTE: Clicking the RETURN button automatically returns the book to the system and updates.</span><br>
+        <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+        <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+        <br>
+        <table id="historyTable" class="table table-hover table-striped" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Book Title</th>
+                    <th class="d-lg-table-cell d-md-table-cell d-none">ISBN</th>
+                    <th>Currently Borrowed By</th>
+                    <th class="d-lg-table-cell d-md-table-cell d-none">Last Borrowed By</th>
+                    <th class="d-lg-table-cell d-md-table-cell d-none">Borrowed On</th>
+                    <th>Return</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for book in data %}
+                <tr>
+                    <td><strong>{{ book.title }}</strong></td>
+                    <td class="d-lg-table-cell d-md-table-cell d-none">{{ book.isbn }}</td>
+                    <td>{{ book.borrowed_by }}</td>
+                    <td class="d-lg-table-cell d-md-table-cell d-none">{{ book.last_borrowed_by }}</td>
+                    <td class="d-lg-table-cell d-md-table-cell d-none">{{ book.borrowed_on }}</td>
+                    <td>
+                        <div class="d-flex flex-lg-row flex-md-row flex-column align-items-center justify-content-center">
+                            <div>
+                                <form action="/admin/returnbook" method="POST">
+                                    <input type="hidden" name="bookid" id="bookid" value="{{ book.id }}">
+                                    <input type="hidden" name="operation" id="operation" value="return">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                    <button type="submit" class="mainbutton mx-1">Return</button>
+                                </form>
+                            </div>
+                            <div>
+                                <form action="/admin/returnbook" method="POST">
+                                    <input type="hidden" name="bookid" id="bookid" value="{{ book.id }}">
+                                    <input type="hidden" name="operation" id="operation" value="lost">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                    <button type="submit" class="mainbutton mx-1 mt-lg-0 mt-md-0 mt-1">Lost</button>
+                                </form>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <script>
+            $(document).ready(function() {
+            $('#historyTable').DataTable({
+                lengthMenu: [
+                    [10, 25, 50, -1],
+                    [10, 25, 50, 'All']
+                    ]
+                });
+            });
+        </script>
+</div>
+{% endblock %}

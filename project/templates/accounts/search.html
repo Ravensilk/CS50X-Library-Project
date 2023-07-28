@@ -1,0 +1,77 @@
+{% extends 'accounts/layout.html' %}
+
+{% block main %}
+<script src="../static/js/text.js"></script>
+<script src="../static/js/index.js"></script>
+<div class="backtotop">
+    <button class="btn btn-dark p-lg-1 p-md-1 p-2" onlick="scrollToTop()" id="backtotop" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-arrow-up-square-fill" viewBox="0 0 16 16">
+        <path d="M2 16a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2zm6.5-4.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 1 0z"/>
+      </svg></button>
+</div>
+<div class="container-fluid">
+    <div class="d-flex flex-lg-row flex-md-row flex-column justify-content-between">
+        <div><h4>Book Search Results for: {{ bookname }}, {{ number }} books found.</h4></div>
+        <div><a href="/">Go back to Homepage</a></div>
+    </div>
+    
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    {% if category == 'danger' %}
+                        <div class="alert alert-{{ category }} alert-dismissible fade show my-1" role="alert">
+                            <i class="bi bi-hand-thumbs-down-fill mx-3"></i>{{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% elif category == 'success' %}    
+                        <div class="alert alert-{{ category }} alert-dismissible fade show my-1" role="alert">
+                            <i class="bi bi-hand-thumbs-up-fill mx-3"></i>{{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endif %}    
+                {% endfor %}
+            {% endif %}
+        {% endwith %} 
+    
+        {% for book in books %}
+        <div class="row d-flex flex-row justify-content-center">
+            <div class="col d-flex flex-column border border-dark rounded justify-content-between p-3 m-3">
+                <div class="col picturecard d-flex flex-column justify-content-center py-3 d-lg-none d-md-none d-block">
+                    <div class="d-flex justify-content-center">
+                        <img class="isbnpic border border-dark rounded bg-light" src="https://covers.openlibrary.org/b/isbn/{{ book.isbn }}-L.jpg">
+                    </div>
+                </div>
+                <div class="row d-flex">
+                    <div class="col-9 d-flex flex-column justify-content-between book-container">
+                        <div class="row">
+                            <h4>{{ book.title }}</h4>  
+                            <span><span class="fw-bold">ISBN:</span> <span class="fst-italic">{{ book.isbn }}</span></span>
+                            <span><span class="fw-bold">Author:</span> <span class="fst-italic">{{ book.author }}</span></span>
+                            <span><span class="fw-bold">Year Published:</span> <span class="fst-italic">{{ book.year }}</span></span>
+                            <span><span class="fw-bold">Published By:</span> <span class="fst-italic">{{ book.publisher }}</span></span>
+                            <div class="description">
+                                <cite class="my-2 descriptionText">{{ book.description }}</cite><button class="descriptionBtn text-primary" style="border: none; background: none;">See More</button>
+                            </div> 
+                        </div>
+                        {% if not book.borrowed_by %}
+                            <div class="d-flex flex-lg-row flex-md-row flex-column">
+                                <div class="my-lg-0 my-md-0 my-1 mt-2"><a href="/login"><button class="btn btn-success">Login to Borrow this book</button></a></div>
+                                <div class="my-lg-0 my-md-0 my-1"><a href="https://openlibrary.org/isbn/{{ book.isbn }}"><button class="btn btn-warning">Check the book at OpenLibrary</button></a></div>
+                            </div>
+                            {% elif book.borrowed_by %}
+                            <div class="d-flex flex-lg-row flex-md-row flex-column">
+                                <div class="my-lg-0 my-md-0 my-1 mt-2"><button class="btn btn-danger" disabled>Currently borrowed by someone</button></a></div>
+                                <div class="my-lg-0 my-md-0 my-1"><a href="https://openlibrary.org/isbn/{{ book.isbn }}"><button class="btn btn-warning">Check the book at OpenLibrary</button></a></div>
+                            </div>
+                            {% endif %}
+                    </div>
+                    <div class="col-3 picturecard d-flex flex-column justify-content-center d-lg-block d-md-none d-none">
+                        <div class="d-flex justify-content-center align-items-center">
+                            <img class="isbnpic border border-dark rounded bg-light" src="https://covers.openlibrary.org/b/isbn/{{ book.isbn }}-L.jpg">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}  
+</div>
+{% endblock %}

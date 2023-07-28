@@ -1,0 +1,45 @@
+{% extends 'accounts/layout.html' %}
+
+{% block main %}
+<div class="d-flex flex-column justify-content-center align-items-center border border-dark rounded p-3 text-white formlayout" style="background-color:  rgb(41, 40, 40);">
+    <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-person-fill-add" viewBox="0 0 16 16">
+        <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0Zm-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+        <path d="M2 13c0 1 1 1 1 1h5.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.544-3.393C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4Z"/>
+      </svg>
+    <h1>Register</h1>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                <br>
+                <div class="alert alert-{{ category }}" role="alert">
+                    {{ message }}
+                </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %} 
+    <form action="/register" method="POST">
+        <div class="form-row p-2">
+            <div class="col my-2">
+                <input class="form-control" autocomplete="on" required type="text" name="username" id="username" placeholder="Username" size="30">
+            </div>
+            <div class="col my-2 rounded">
+                <input class="form-control" type="text" required name="email" id="email" placeholder="Email Address">
+            </div>
+            <div class="col my-2 rounded">
+                <input class="form-control" type="password" required name="password" id="password" placeholder="Password">
+            </div>
+            <div class="col my-2 rounded">
+                <input class="form-control" type="password" required name="confirmation" id="confirmation" placeholder="Re-enter password">
+            </div>
+        </div>
+        <div class="form-row d-flex justify-content-center">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+            <button type="submit" class="mainbutton" style="filter: invert(1);">Register</button>
+        </div>
+        <hr class="text-white">
+    </form>
+        <div class="form-row d-flex flex-column justify-content-center text-center mt-3 pb-3">
+            <a href="/login"><button class="mainbutton" style="filter: invert(1);">Login</button></a>
+        </div>
+</div>
+{% endblock %}
